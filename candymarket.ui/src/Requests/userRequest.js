@@ -7,4 +7,10 @@ const getAllUsers = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export default { getAllUsers };
+const whoOwnsCandy = id => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/user/${id}`)
+    .then(resp => resolve(resp.data))
+    .catch(reject);
+});
+
+export default { getAllUsers, whoOwnsCandy };

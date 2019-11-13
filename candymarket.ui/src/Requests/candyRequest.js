@@ -7,4 +7,10 @@ const getAllCandy = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export default { getAllCandy };
+const whichCandy = id => new Promise((resolve, reject) => {
+    axios.get(`${baseUrl}/candy/${id}/`)
+        .then(resp => resolve(resp.data))
+        .catch(err => console.error(reject));
+});
+
+export default { getAllCandy, whichCandy };

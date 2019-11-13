@@ -28,6 +28,12 @@ namespace CandyMarket.Api.Controllers
                 return _repo.GetAllUsers();
         }
 
+        [HttpGet("{userId}")]
+        public IEnumerable<User> GetSingle(int userId)
+        {
+            return _repo.GetSingleUser(userId);
+        }
+
         [HttpPost]
         public void Add(AddUserDto newUser)
         {

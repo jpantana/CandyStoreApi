@@ -49,36 +49,25 @@ namespace CandyMarket.Api.Repositories
             }
         }
 
-        public IEnumerable<UserCandy> TradeCandy(int newUserId, int oldUserId, int candyId)
+        public UserCandy TradeCandy(int id, UserCandy userCandyUpdate)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"SELECT * FROM [UsersCandy]
-                            WHERE candyId = @cId AND userId = @ouId";
 
-
-                var sql3 = @"UPDATE [UsersCandy]
-                `            SET UserId = @nuId, IsTraded = 'true'
+                var sql = @"UPDATE [UsersCandy]
+                             SET UserId = @nuId, IsTraded = 'true'
                              WHERE candyId = @cId AND userId = @ouId";
 
-                var sql2 = @"INSERT INTO [UsersCandy]
-                                ([CandyId]
-                                ,[UserId]
-                                ,[IsTraded])
-                            OUTPUT inserted.*
-                                VALUES
-                                (@cId
-                                ,@uId
-                                ,'true')";
-
+                var u = userCandyUpdate;
+                
                 var userCandyObj = new
                 {
-                    cId = candyId,
-                    nuId = newUserId,
-                    ouId = oldUserId,
+                    //cId = u.id,
+                    //nuId = newUserId,
+                    //ouId = oldUserId,
                 };
 
-                var userCandy = db.Query<UserCandy>(sql3, userCandyObj);
+                var userCandy = db.QueryFirst<UserCandy>(sql, userCandyObj);
 
                 return userCandy;
             }

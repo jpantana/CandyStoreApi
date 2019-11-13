@@ -23,6 +23,20 @@ namespace CandyMarket.Api.Repositories
             }
         }
 
+        public IEnumerable<User> GetSingleUser(int userId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                db.Open();
+
+                var sql = @"Select * From [User] Where [User].id = @uid";
+
+                var user = db.Query<User>(sql, new { uid = userId });
+
+                return user;
+            }
+        }
+
         public bool AddUser(AddUserDto newUser)
         {
             using (var db = new SqlConnection(_connectionString))
