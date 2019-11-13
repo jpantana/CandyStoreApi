@@ -33,21 +33,20 @@ namespace CandyMarket.Api.Controllers
             _repo.AddUserCandy(newUserCandy, userId, candyId);
         }
 
-        [HttpPut("{id}/trade")]
-        public IActionResult Trade(int id, TradeUserCandyDto userCandyUpdate)
-        {
-            var repo = new UserCandyRepository();
 
-            var updatedUserCandy = new UserCandy
+        [HttpPut("{id}/{newId}/trade")]
+        public IActionResult UpdateUserCandy(TradeUserCandyDto updatedUserCandy, int id, int newId)
+        {
+            var updatedTrainer = new UserCandy
             {
-                CandyId = userCandyUpdate.CandyId,
-                UserId = userCandyUpdate.UserId,
-                IsTraded = true,
+                CandyId = updatedUserCandy.CandyId,
+                UserId = updatedUserCandy.UserId,
+                IsTraded = updatedUserCandy.IsTraded
             };
 
-            var userCandyThatGotUpdated = repo.TradeCandy(id, updatedUserCandy);
+            var trainerThatGotUpdated = _repo.Update(updatedTrainer, id, newId);
 
-            return Ok(userCandyThatGotUpdated);
+            return Ok(trainerThatGotUpdated);
         }
     }
 }

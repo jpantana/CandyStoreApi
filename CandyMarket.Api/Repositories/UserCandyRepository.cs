@@ -49,27 +49,25 @@ namespace CandyMarket.Api.Repositories
             }
         }
 
-        public UserCandy TradeCandy(int id, UserCandy userCandyUpdate)
+        public bool Update(UserCandy userCandyUpdate, int id, int newId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-
                 var sql = @"UPDATE [UsersCandy]
                              SET UserId = @nuId, IsTraded = 'true'
-                             WHERE candyId = @cId AND userId = @ouId";
+                             WHERE [UsersCandy].Id = @ucId
+
+                        ";
 
                 var u = userCandyUpdate;
-                
-                var userCandyObj = new
+
+                var parameters = new
                 {
-                    //cId = u.id,
-                    //nuId = newUserId,
-                    //ouId = oldUserId,
+                    ucId = id,
+                    nuId = newId,
                 };
 
-                var userCandy = db.QueryFirst<UserCandy>(sql, userCandyObj);
-
-                return userCandy;
+                return db.Execute(sql, parameters) == 1;
             }
         }
     }
